@@ -5,12 +5,13 @@ My Xmonad configuration files.
 ![megapon](./stuff/screenshot.png)
 
 ## Dependencies
-- `xmonad` (Who would have thought?)
+- `xmonad` + `xmobar` (Who would have thought?)
 - `rofi` Application launcher
 - `dunst` Notifications
 - `pulseaudio-utils` Volume control
 - `flameshot` Screenshotting tool
 - `JetBrains Mono Bold` Main font
+- `Ubuntu Bold` xmobar font
 - `font-awesome` v6.0.0+ 🚀
 
 
