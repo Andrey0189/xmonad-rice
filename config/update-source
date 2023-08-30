@@ -1,0 +1,39 @@
+#!/bin/sh
+
+cd ~/.config/xmonad
+
+updateRepo() {
+	echo "Removing $2 dir"
+	rm -rf "$2"
+
+	repo="$1/$2"
+
+	if [ "$3" == "codeberg" ]; then
+		apilink="https://codeberg.org/api/v1/repos/$repo/releases"
+		clonelink="https://codeberg.org/$repo.git"
+		greppattern='"tag_name":.*?[^\\]",'
+	else
+		apilink="https://api.github.com/repos/$repo/tags"
+		clonelink="https://github.com/$repo.git"
+		greppattern='"name":.*?[^\\]",'
+	fi
+
+	response=$(curl --silent "$apilink")
+	tag=$(echo "$response" | grep -Po "$greppattern" | head -1 | cut -d '"' -f 4)
+	echo $tag
+	
+	git clone --branch "$tag" $clonelink
+}
+
+updateRepo "xmonad" "xmonad" 		"github"
+updateRepo "xmonad" "xmonad-contrib" 	"github"
+updateRepo "xmobar" "xmobar" 		"codeberg"
+
+read -p "Recompile everything with stack-install? (Y/n) " response
+
+if [ "$response" == "n" ]
+then
+    exit 1
+fi
+
+stack install
