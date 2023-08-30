@@ -28,9 +28,10 @@ sstool 	   = "flameshot gui"
 web 	   = "chromium"
 restartCmd = "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
 
-volmute = "dunstvol mute"
-volup   = "dunstvol up"
-voldown = "dunstvol down"
+volmute    = "~/.config/xmonad/dunstvol mute"
+volup      = "~/.config/xmonad/dunstvol up"
+voldown    = "~/.config/xmonad/dunstvol down"
+recordrofi = "~/.config/xmonad/recordrofi"
 
 colorFocused = "#71337a"
 colorNormal  = "#333333"
@@ -73,7 +74,7 @@ myConfig = def
 	, ("M-d", 		spawn rofi              )
 	, ("<Print>", 		unGrab *> spawn sstool  )
 	, ("M-w"  , 		spawn web               )
-	, ("M-r"  , 		spawn "recordrofi"      )
+	, ("M-r"  , 		spawn recordrofi        )
 
 	, ("<XF86AudioMute>", 	spawn volmute		)
 	, ("<XF86AudioRaiseVolume>", spawn volup	)

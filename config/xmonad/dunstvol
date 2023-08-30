@@ -1,0 +1,39 @@
+#!/bin/sh
+# changeVolume
+
+mutecmd() {
+  pactl set-sink-mute 0 toggle
+}
+
+upcmd() {
+  pactl set-sink-volume 0 +5%
+}
+
+downcmd() {
+  pactl set-sink-volume 0 -5%
+}
+
+#echo $1
+#echo $([ "$1" = "mute" ])
+if [ "$1" = "mute" ]; then
+  mutecmd
+elif [ "$1" = "up" ]; then
+  upcmd
+else
+  downcmd
+fi
+
+msgTag="volumechange"
+iconPath="~/.local/share/icons/Zafiro-Nord-Dark-Black/panel/22"
+
+volume="$(pactl get-sink-volume 0 | awk '{print $5}' )"
+mute="$(pactl get-sink-mute 0 | awk '{print $2}' )"
+
+
+if [ "$mute" = "yes" ]; then
+    # Show the sound muted notification
+    notify-send -a "changeVolume" -h string:x-dunst-stack-tag:$msgTag -i $iconPath/audio-volume-muted-blocked-panel.svg "Volume muted" --expire-time=1000 
+else
+    # Show the volume notification
+    notify-send -a "changeVolume" -h string:x-dunst-stack-tag:$msgTag -i $iconPath/audio-volume-high.svg -h int:value:"$volume" "Volume: ${volume}" --expire-time=1000
+fi

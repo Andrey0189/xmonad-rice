@@ -1,0 +1,40 @@
+Config { overrideRedirect = False
+	, font     = "xft:Ubuntu Bold 10"
+      	, additionalFonts = [ "Font Awesome 6 Free Solid 12"
+                            , "Font Awesome 6 Brands 12"
+			    , "Noto Fonts Emoji 11"
+        ]       
+     	, bgColor  = "#282828"
+	, fgColor  = "#ebdbb2"
+	, position = TopSize L 100 26
+	, sepChar  = "%"
+	, alignSep = "}{"
+	, commands = [
+  		Run Com "uname" ["-s","-r"] "kernel" 0
+       		, Run Weather "UTTT"
+			[ "--template", "Weather: <tempC>°C"
+                        , "-L", "0"
+                        , "-H", "25"
+                        ] 36000
+		, Run BatteryP ["BAT0"]
+			["-t", "Batt: <acstatus><left>% / <timeleft>"
+               		, "-L", "10", "-H", "80"
+               		, "-l", "red"
+               		, "--", "-O", "↑", "-o", "↓", "-i", "="
+               		] 10
+	 	, Run DiskU [("/", "<free>"), ("sdb2", "<usedbar>")]
+        		["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
+                , Run Cpu
+                        [ "-t", "CPU: <total>%" 
+			, "-L", "3"
+                        , "-H", "50"
+                        , "--high"  , "red"
+                        ] 10
+  		, Run Kbd [("us", "🇺🇸"), ("ru", "🇷🇺")]		
+                , Run Memory ["--template", "RAM: <usedratio>%"] 10
+                , Run Date "%a %Y-%m-%d %H:%M" "date" 10
+                , Run XMonadLog
+        ]
+
+       , template = "%XMonadLog% }{  <box type=Bottom width=2 color=#cc241d><fc=#cc241d> %kernel%</fc></box>   <box type=Bottom width=2 color=#98971a><fc=#98971a> %cpu%</fc></box>   <box type=Bottom width=2 color=#d79921><fc=#d79921> %memory%</fc></box>   <box type=Bottom width=2 color=#458588><fc=#458588> %battery%</fc></box>   <box type=Bottom width=2 color=#b16286><fc=#b16286> Root: %disku% free</fc></box>   <box type=Bottom width=2 color=#689d6a><fc=#689d6a>Layout: %kbd%</fc></box>   <box type=Bottom width=2 color=#d65d0e><fc=#d65d0e> %UTTT%</fc></box>   <box type=Bottom width=2 color=#7fa2ac><fc=#7fa2ac> %date%</fc></box>"
+       }
